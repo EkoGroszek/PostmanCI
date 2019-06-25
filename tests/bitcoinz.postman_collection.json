@@ -1,0 +1,121 @@
+{
+	"info": {
+		"_postman_id": "1d765dd3-e229-4906-82da-c47a62182f9e",
+		"name": "bitcoinz",
+		"description": "This is a sample collection containing a single request. The request has 3 sample tests written under the **Tests** tab. There is an error under one of the tests. Fix it, so that all the tests pass when you run the collection.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Bitcoin Exchange Rate",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"// get the current date and time, and calculate the date a day prior ",
+							"var date = new Date();",
+							"date.setHours(date.getHours() - 24);",
+							"",
+							"// set an environment variable to access this data later on",
+							"postman.setEnvironmentVariable('lastDay',(date.toISOString()));",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"// ensure healthy response code",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"// parse the response object",
+							"var response = JSON.parse(responseBody);",
+							"",
+							"// pull key values from the response",
+							"var usdRate = response.bpi.USD.rate;",
+							"var bitcoinTime = response.time.updatedISO;",
+							"",
+							"// ensure the rate in the response is a float, and not divisible evenly by 1",
+							"tests[\"Bitcoin rate is a float\"] = usdRate % 1 != 0;",
+							"",
+							"// get environment variable from the pre-request script",
+							"var lastDay = postman.getEnvironmentVariable('lastDay');",
+							"",
+							"// Oops! There is an error in this test. Fix it so that `<=` is `>=` to ensure the response was updated in the last day",
+							"tests[\"Updated in the last day\"] = bitcoinTime <= lastDay;",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/hello-world",
+					"protocol": "https",
+					"host": [
+						"api",
+						"coindesk",
+						"com"
+					],
+					"path": [
+						"v1",
+						"bpi",
+						"currentprice.json"
+					]
+				},
+				"description": "There are 3 example tests under the **Tests** tab. Fix an error in one of the tests for the collection to run and see all the tests pass."
+			},
+			"response": []
+		},
+		{
+			"name": "asd",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4bfbdad2-70ec-4cba-b7c7-daa47181cafc",
+						"exec": [
+							"// example using pm.response.to.have\r",
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// example using pm.response.to.be*\r",
+							"pm.test(\"response must be valid and have a body\", function () {\r",
+							"     // assert that the status code is 200\r",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants\r",
+							"     // assert that the response has a valid JSON body\r",
+							"    });\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/hello-world",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hello-world"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
