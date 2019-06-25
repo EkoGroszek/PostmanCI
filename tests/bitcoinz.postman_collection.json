@@ -12,7 +12,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"type": "text/javascript",
+						"id": "efd9a06f-12bd-4724-89a0-5f8c2f039268",
 						"exec": [
 							"// get the current date and time, and calculate the date a day prior ",
 							"var date = new Date();",
@@ -21,13 +21,14 @@
 							"// set an environment variable to access this data later on",
 							"postman.setEnvironmentVariable('lastDay',(date.toISOString()));",
 							""
-						]
+						],
+						"type": "text/javascript"
 					}
 				},
 				{
 					"listen": "test",
 					"script": {
-						"type": "text/javascript",
+						"id": "8ba941fe-7bc6-4c79-b339-abdeb4c2c735",
 						"exec": [
 							"// ensure healthy response code",
 							"tests[\"Status code is 200\"] = responseCode.code === 200;",
@@ -48,7 +49,8 @@
 							"// Oops! There is an error in this test. Fix it so that `<=` is `>=` to ensure the response was updated in the last day",
 							"tests[\"Updated in the last day\"] = bitcoinTime => lastDay;",
 							""
-						]
+						],
+						"type": "text/javascript"
 					}
 				}
 			],
@@ -56,7 +58,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/hello-world",
+					"raw": "https://api.coindesk.com/v1/bpi/currentprice.json",
 					"protocol": "https",
 					"host": [
 						"api",
@@ -70,50 +72,6 @@
 					]
 				},
 				"description": "There are 3 example tests under the **Tests** tab. Fix an error in one of the tests for the collection to run and see all the tests pass."
-			},
-			"response": []
-		},
-		{
-			"name": "asd",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "4bfbdad2-70ec-4cba-b7c7-daa47181cafc",
-						"exec": [
-							"// example using pm.response.to.have\r",
-							"pm.test(\"response is ok\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"\r",
-							"// example using pm.response.to.be*\r",
-							"pm.test(\"response must be valid and have a body\", function () {\r",
-							"     // assert that the status code is 200\r",
-							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants\r",
-							"     // assert that the response has a valid JSON body\r",
-							"    });\r",
-							"pm.test(\"Response time is less than 200ms\", function () {\r",
-							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/hello-world",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"hello-world"
-					]
-				}
 			},
 			"response": []
 		}
